@@ -6,7 +6,7 @@ def well(tray, well, quality, old_df=None, screens=d):
     
     d = dictionary[tray]
     
-    if type(wells) == str:
+    if type(well) == str:
         wells = [wells]
         
     if type(wells) != list:
