@@ -1,20 +1,20 @@
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+"""
+@author: dennisbrookner
+"""
 import pandas as pd
 
-from crystalscreening.examples.samplescreens import screens
 
-def well(tray, well, quality, old_df=None, screens=screens):
+def well(tray, well, quality, screen, old_df=None, note=None):
     
-    #rowparam = screens['row']
-    #colparam = screens['column']
+    # to-do: check whether 'row' and 'column' are present in the tray dictionary, and if so, use that
+    df = pd.DataFrame(columns = [screen['row']] + [screen['col']] 
+                      + ['quality'] 
+                      + list(screen[tray]['traystatics'].keys())
+                      + list(screen['screenstatics'].keys())
+                      + ['tray'] + ['well'])
     
-    df = pd.DataFrame(columns = [screens['row']] + [screens['column']]
-                      + ['quality'] + screens['statics'])
-                      
-                      #['protein', 'PEG', 'quality', 'tray', 'well', 'pH',
-                       #          'buffer', 'bufferconc', 'salt', 'saltconc',
-                        #         'date', 'ss'])
-    
-    #t = screens[tray]
     
     if type(well) == str:
         well = [well]
@@ -23,23 +23,30 @@ def well(tray, well, quality, old_df=None, screens=screens):
         raise TypeError('Improper type for well name')
     
     for w in well:
-        
-        #wstatics = [t[param] for param in screens['statics']]
-        
-        df.loc[len(df.index)] = [screens[tray][w[0]], screens[tray][w[1]], quality] + [screens[tray][param] for param in screens['statics']]
-                                 #quality, tray, well,
-                                 #t['pH'], t['buffer'], t['bufferconc'], t['salt'], t['saltconc'],
-                                 #t['date'], t['ss']]
-            
-    if old_df is not None:
-        df = old_df.append(df)
+                
+        df.loc[len(df.index)] = ([screen[tray][w[0]]] + [screen[tray][w[1]]]
+                                 + [quality]
+                                 + list(screen[tray]['traystatics'].values())
+                                 + list(screen['screenstatics'].values())
+                                 + [tray] + [w])
     
+    if note is not None:
+        df['notes'] = note
+    
+    if old_df is not None:
+        df = pd.concat([old_df, df], axis=0, ignore_index=True)
+        #df = old_df.append(df)
+        
     return df
 
 
 def main():
-    df = well('tray1', 'A2', 'good')
-    df = well('tray2', ['A1', 'A2', 'A3'], 'needles', old_df=df)
+    
+    from crystalscreening.examples.samplescreens import screen1 as screen
+    
+    df = well('tray1', 'A2', 'good', screen, note='newly appeared')
+    df = well('tray2', ['A1', 'A2', 'A3'], 'needles', screen, old_df=df, note = 'not mountable yet')
+    df = well('tray3', 'G2', 'needles', screen, old_df=df)
     print(df)
 
 if __name__ == '__main__': main()
