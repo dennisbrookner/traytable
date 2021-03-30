@@ -11,7 +11,7 @@ import numpy as np
 from copy import deepcopy
 
 def newscreen(row, col, maxwell, **kwargs):
-    print("Reminder: 'row' is the parameter encoded by the row name, not the parameter that varies across a row")
+    #print("Reminder: 'row' is the parameter encoded by the row name, not the parameter that varies across a row")
     
     screen = {'row':row,
               'col':col,

@@ -6,7 +6,7 @@
 import pandas as pd
 
 
-def well(tray, well, quality, screen, old_df=None, note=None):
+def well(screen, tray, well, quality, old_df=None, **kwargs):
     
     # to-do: check whether 'row' and 'column' are present in the tray dictionary, and if so, use that
     df = pd.DataFrame(columns = [screen['row']] + [screen['col']] 
@@ -30,8 +30,9 @@ def well(tray, well, quality, screen, old_df=None, note=None):
                                  + list(screen['screenstatics'].values())
                                  + [tray] + [w])
     
-    if note is not None:
-        df['notes'] = note
+    if kwargs is not None:
+        for key, value in kwargs.items():
+            df[key] = value
     
     if old_df is not None:
         df = pd.concat([old_df, df], axis=0, ignore_index=True)
@@ -44,9 +45,9 @@ def main():
     
     from crystalscreening.examples.samplescreens import screen1 as screen
     
-    df = well('tray1', 'A2', 'good', screen, note='newly appeared')
-    df = well('tray2', ['A1', 'A2', 'A3'], 'needles', screen, old_df=df, note = 'not mountable yet')
-    df = well('tray3', 'G2', 'needles', screen, old_df=df)
+    df = well(screen, 'tray1', 'A2', 'good', note='newly appeared')
+    df = well(screen, 'tray2', ['A1', 'A2', 'A3'], 'needles', old_df=df, note = 'not mountable yet')
+    df = well(screen, 'tray3', 'G2', 'needles', old_df=df)
     print(df)
 
 if __name__ == '__main__': main()
