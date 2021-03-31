@@ -15,7 +15,6 @@ def well(screen, tray, well, quality, old_df=None, **kwargs):
                       + list(screen['screenstatics'].keys())
                       + ['tray'] + ['well'])
     
-    
     if type(well) == str:
         well = [well]
         

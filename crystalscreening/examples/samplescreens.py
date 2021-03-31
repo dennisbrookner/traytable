@@ -1,16 +1,18 @@
 import crystalscreening.screens as cs
 
 screen1 = cs.newscreen('protein', 'PEG', 'H6', construct='wt DHFR', buffer='imidazole')
-screen1 = cs.newtray(screen1, 'tray1', date='2021-01-01', pH=5.4, additive='NaOAc')
-screen1 = cs.setrows(screen1, 'tray1', 4, 18)
-screen1 = cs.setcols(screen1, 'tray1', 16, 21)
+screen1 = cs.newtray(screen1, 'tray1', date='2021-01-01', pH=5.4, additive='NaOAc',
+                     rows=[4,18], cols = [16,21])
+#screen1 = cs.setrows(screen1, 'tray1', 4, 18)
+#screen1 = cs.setcols(screen1, 'tray1', 16, 21)
 
-screen1 = cs.newtray(screen1, 'tray2', date='2021-01-03', pH=5.6, other='humid day')
-screen1 = cs.setrows(screen1, 'tray2', 10, 17)
-screen1 = cs.setcols(screen1, 'tray2', 15, 20)
+screen1 = cs.newtray(screen1, 'tray2', date='2021-01-03', pH=5.6, other='humid day',
+                     rows=[10,17], cols = [15,20])
+#screen1 = cs.setrows(screen1, 'tray2', 10, 17)
+#screen1 = cs.setcols(screen1, 'tray2', 15, 20)
 
 screen1 = cs.clonetray(screen1, 'tray2', 'tray3', date='2021-01-04')
-screen1 = cs.setrows(screen1, 'tray3', 11, 18)
+screen1 = cs.setrows(screen1, 'tray3', [11, 18])
 
 # samplescreen1 = {}
 # samplescreen1['row'] = 'protein'
