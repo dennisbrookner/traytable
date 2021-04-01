@@ -10,7 +10,7 @@ import string
 import numpy as np
 from copy import deepcopy
 
-def newscreen(row, col, maxwell, **kwargs):
+def screen(row, col, maxwell, **kwargs):
     #print("Reminder: 'row' is the parameter encoded by the row name, not the parameter that varies across a row")
     
     screen = {'row':row,
@@ -24,7 +24,7 @@ def newscreen(row, col, maxwell, **kwargs):
         
     return(screen)
 
-def newtray(screen, tray, **kwargs):
+def tray(screen, tray, **kwargs):
         
     screen[tray] = {}
         
@@ -100,8 +100,8 @@ def rowcolparser(n, args):
 
 def main():
     
-    screen1 = newscreen('protein', 'PEG', 'H6', construct='wt DHFR')
-    screen1 = newtray(screen1, 'DB1', date='2021', rows = [3,10],
+    screen1 = screen('protein', 'PEG', 'H6', construct='wt DHFR')
+    screen1 = tray(screen1, 'DB1', date='2021', rows = [3,10],
                       cols = [4,9])
     
     #screen1 = newtray(screen1, 'DB1', date='2021', rows = [10])
