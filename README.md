@@ -1,10 +1,10 @@
-# crystalscreening
-### A simple python package for organizing crystallization screening results.
-Logging and optimizing crystal hits can involve either a lot of redundant notetaking, or frequent look-ups of varying conditions across numerous trays. With this package, you input all information about your crystal conditions just once, and that information is automatically included when you log a 'hit'.  
+# `traytable`
+### A python package for tabulating crystallization results across many trays  
+`traytable` provides methods for storing all information about a crystallization screen in a dictionary of dictionaries, and methods for extracting and tabulating all data about a "hit" into a `pandas` dataframe. The goal of `traytable` is for all crystallization data to be inputted once and only once, and then conveniently looked up and reused whenever needed.
 
-You can find a working example in [sample.ipynb](https://github.com/dennisbrookner/crystalscreening/blob/main/sample.ipynb), with the slight caveat that the package isn't pip-installable yet, so to run the code yourself you'd need to download this repo and add it to your `PYTHONPATH` via something like 
+You can find a jupyter notebook with a brief demonstration of package functionality [here](https://github.com/dennisbrookner/traytable/blob/main/sample.ipynb).
 
+#### Installation
 ```bash
-export PYTHONPATH="${PYTHONPATH}:/Path/to/local/copy/of/crystalscreening"
+pip install traytable
 ```
-in your `.bashrc`
