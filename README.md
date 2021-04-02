@@ -6,7 +6,7 @@
 
 The goal of `traytable` is for all crystallization data to be inputted once and only once, and then conveniently looked up and reused whenever needed.
 
-You can find a jupyter notebook with a brief demonstration of package functionality [here](https://github.com/dennisbrookner/traytable/blob/main/sample.ipynb).
+You can find a jupyter notebook with a brief demonstration of package functionality [here](https://github.com/dennisbrookner/traytable/blob/main/1_sample.ipynb).
 
 #### Installation
 ```bash
