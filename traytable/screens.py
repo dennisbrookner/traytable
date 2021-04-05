@@ -12,7 +12,7 @@ from copy import deepcopy
 
 def screen(row, col, maxwell, **kwargs):
     '''
-    Create a screen with global parameters and which can contain trays
+    Create a screen with global parameters
 
     Parameters
     ----------
@@ -23,12 +23,12 @@ def screen(row, col, maxwell, **kwargs):
     maxwell : string
         Name of the well in the bottom-right corner of each tray, e.g. 'H6'
     **kwargs : any type
-        Any named arguments become global parameters applied to all wells in all trays in the screen
+        Any named arguments become global parameters to be applied to all wells in all trays in the screen
 
     Returns
     -------
     screen : dict
-        A dictionary containing the screen and to which trays can be added
+        A dictionary containing the screen
 
     '''
     
@@ -36,99 +36,90 @@ def screen(row, col, maxwell, **kwargs):
               'col':col,
               'maxwell':maxwell}
     
-    screen['screenstatics'] = {}
-    
+    screen['statics'] = {}
+        
     for key, value in kwargs.items():
-        screen['screenstatics'][key] = value
+        screen['statics'][key] = value
         
     return screen
 
-def tray(screen, tray, **kwargs):
+def tray(screen, rows, cols, **kwargs):
     '''
-    Create a tray and add it to your screen
+    Create a tray, based on a screen and row/column specifications
 
     Parameters
     ----------
     screen : dict
-        Screen to which a tray is being added
-    tray : string
-        Name of the tray being created
+        Screen from which the tray inherits global parameters
+    rows : list or float
+        Value(s) to be used as row specifications, passed to setrows()
+    cols : list or float
+        Value(s) to be used as column specifications, passed to setcols()
     **kwargs : any type
-        Special kwargs 'rows' and 'cols' are passed to setrows() and setcols() respectively.
-        All other kwargs become parameters that apply to all wells in the tray
+        Set any named parameters to apply them to all wells in the tray
 
     Returns
     -------
-    screen : dict
-        Screen including the newly added tray
+    tray : dict
+        Dictionary to be passed to well() for logging hits from this tray
 
     '''
         
-    screen[tray] = {}
-        
-    screen[tray]['traystatics'] = {}
+    tray = deepcopy(screen)
     
-    rows = kwargs.pop('rows', None)
-    if rows is not None:
-        screen = setrows(screen, tray, rows)
-        
-    cols = kwargs.pop('cols', None)
-    if cols is not None:
-        screen = setcols(screen, tray, cols)
-        
-    for key, value in kwargs.items():
-        screen[tray]['traystatics'][key] = value
+    tray['statics'].update(kwargs)
     
-    return screen
+    tray = setrows(tray, rows)
+    tray = setcols(tray, cols)
+    
+    #for key, value in kwargs.items():
+    #    tray['traystatics'][key] = value
+    
+    return tray
 
-def clonetray(screen, oldtray, newtray, **kwargs):
+def clonetray(oldtray, **kwargs):
     '''
     Copy a tray, overriding parameters as desired
 
     Parameters
     ----------
-    screen : dict
-        Screen containing the tray to be copied
-    oldtray : string
-        Name of tray to be copied
-    newtray : string
-        Name of new tray to be created 
+    oldtray : dict
+        Tray to be copied
     **kwargs : any type
-        Accepts all arguments accepted by tray(). 
+        Accepts all arguments accepted by tray(), including rows and cols.
         Any parameters extant in oldtray not specified here will be copied into newtray
 
     Returns
     -------
-    screen : dict
-        Screen containing oldtray and newtray
+    newtray : dict
+        Dictionary to be passed to well() for logging hits from this tray
 
     '''
     
-    screen[newtray] = deepcopy(screen[oldtray])
+    newtray = deepcopy(oldtray)
     
     rows = kwargs.pop('rows', None)
     if rows is not None:
-        screen = setrows(screen, newtray, rows)
+        newtray = setrows(newtray, rows)
         
     cols = kwargs.pop('cols', None)
     if cols is not None:
-        screen = setcols(screen, newtray, cols)
+        newtray = setcols(newtray, cols)
     
-    for key, value in kwargs.items():
-        screen[newtray]['traystatics'][key] = value
+    newtray['statics'].update(kwargs)
+    #for key, value in kwargs.items():
+    #    newtray['traystatics'][key] = value
         
-    return screen
+    return newtray
 
-def setrows(screen, tray, *args):
+def setrows(tray, *args):
     '''
     Set values encoded by row names, e.g. the values static across each row
 
     Parameters
     ----------
-    screen : dict
-        Screen containing the tray to which rows will be added.
-    tray : string
-        Name of tray to which rows will be added.
+    tray : dict
+        Tray to which rows will be added.
     *args : list or float
         Row values can be passed as one number to apply to all rows, 
         numrows numbers to map directly to rows, or
@@ -141,28 +132,26 @@ def setrows(screen, tray, *args):
 
     '''
 
-    numrows = string.ascii_uppercase.find(screen['maxwell'][0])+1
+    numrows = string.ascii_uppercase.find(tray['maxwell'][0])+1
     
     rownames = [i for i in string.ascii_uppercase[:numrows]]
     
     #print(args)
-    rowdata = rowcolparser(numrows, args)
+    rowdata = rowcolparser(numrows, 'rows', args)
     
     for name, data in zip(rownames, rowdata):
-       screen[tray][name] = data
+       tray[name] = data
     
-    return screen
+    return tray
 
-def setcols(screen, tray, *args):  
+def setcols(tray, *args):  
     '''
     Set values encoded by column names, e.g. the values static down each column
 
     Parameters
     ----------
-    screen : dict
-        Screen containing the tray to which columns will be added.
-    tray : string
-        Name of tray to which columns will be added.
+    tray : dict
+        Tray to which columns will be added.
     *args : list or float
         Column values can be passed as one number to apply to all columns, 
         numcols numbers to map directly to columns, or
@@ -175,18 +164,18 @@ def setcols(screen, tray, *args):
 
     '''     
    
-    numcols = int(screen['maxwell'][1])
+    numcols = int(tray['maxwell'][1])
     
     colnames = [str(i) for i in range(1,numcols+1)]
     
-    coldata = rowcolparser(numcols, args)
+    coldata = rowcolparser(numcols, 'column', args)
 
     for name, data in zip(colnames, coldata):
-       screen[tray][name] = data
+       tray[name] = data
     
-    return screen    
+    return tray    
 
-def rowcolparser(n, *args):
+def rowcolparser(n, which, *args):
     '''
     Helper function not exported
     '''
@@ -213,7 +202,7 @@ def rowcolparser(n, *args):
                 data = args[0][0] * n
                 #print(data)
             else:
-                raise ValueError("Unexpected row/column specification")
+                raise ValueError(f"Unexpected {which} specification")
 
     
     return data
@@ -223,23 +212,23 @@ def main():
     
     screen1 = screen('protein', 'PEG', 'H6', construct='wt DHFR')
     
-    screen1 = tray(screen1, 'DB1', rows = 3, cols = [4])
-    screen1 = setrows(screen1, 'DB1', 3)
-    screen1 = setrows(screen1, 'DB1', [3])
+    tray1 = tray(screen1, rows = 3, cols = [4,5])
+    #tray1 = setrows(tray1, 3)
+    #screen1 = setrows(screen1, 'DB1', [3])
     
-    screen1 = tray(screen1, 'DB2', rows = [1,8], cols = [1, 2, 3, 4, 5, 6])
-    screen1 = setrows(screen1, 'DB2', 1, 8)
-    screen1 = setcols(screen1, 'DB2', 1,2,3,4,5,8)
+    #screen1 = tray(screen1, 'DB2', rows = [1,8], cols = [1, 2, 3, 4, 5, 6])
+    #screen1 = setrows(screen1, 'DB2', 1, 8)
+    #screen1 = setcols(screen1, 'DB2', 1,2,3,4,5,8)
 
     #screen1 = newtray(screen1, 'DB1', date='2021', rows = [10])
 
     #screen1 = setrows(screen1, 'DB1', 3)
     #screen1 = setcols(screen1, 'DB1', 4, 9)
     
-    #screen1 = clonetray(screen1, 'DB1', 'DB2', season='spring', rows=5)
+    tray2 = clonetray(tray1, rows=[3,5])
     #screen1 = setrows(screen1, 'DB2', [1,2,3,5,6.7,5.5,1,16])
 
-    print(screen1)
+    print(tray2)
 
     return
 
