@@ -43,4 +43,42 @@ The return `results` from `tt.well()` is a pandas data frame where every crystal
  - `old_df`: Not strictly required, but to append previous results, pass previous returns from `tt.well()` to the next call as `old_df = `
   
 ### Optional arguments
-All three of these methods (`tt.screen()`, `tt.tray()`, and `tt.well()`) will accept any additional named arguments, and include them as columns in the final data frame. As you would expect, arguments passed to `tt.screen()` will apply to all wells in all trays in the screen,  For example: *(to be continued)*
+All three of these methods (`tt.screen()`, `tt.tray()`, and `tt.well()`) will accept any additional named arguments, and include them as columns in the final data frame. As you would expect, arguments passed to `tt.screen()` will apply to all wells in all trays in the screen, and arguments passed to `tt.tray()` will apply to all wells in that tray. For example:
+```python
+detailedscreen = tt.screen(row='protein', col='PEG', maxwell='H6', construct='HEWL', buffer='imidazole', bufferconc=20, salt='MnCl2', saltconc=125)
+tray1 = tt.tray(detailedscreen, rows=[1,8], cols=[10,20], date='2021-01-01', setby='robot', weathernotes='very humid day') 
+results = tt.well(tray1, 'A1', 'good', appxnum=3, notes='rod-shaped')
+```
+
+### Other things of note
+#### The `clonetray()` method
+To save some typing, you can create trays with `tt.clonetray()`. Usage is `newtray = tt.clonetray(oldtray, **kwargs)`. Any additional arguments passed to `clonetray()` will (as necessary) overwrite the associated parameter from the parent tray. For example:
+```python
+# assume screen already exists
+tray1 = tt.tray(screen, rows=[1,8], cols=[5,10], date='2021-01-02'
+tray2 = tt.clonetray(tray1, date='2021-01-03')
+```
+#### Using `pandas` methods
+As mentioned above, `tt.well()` returns a `pandas` dataframe. This means that you can use `pandas` methods and features as desired. One frequent usages might be printing out only select columns with bracket notation, or accessing a certain column with dot notation, e.g. 
+```python
+results[['protein', 'PEG', 'quality']]
+
+import numpy as np
+number_of_crystals = np.sum(results.appxnum())
+```
+You can also use the built-in plotting backend of `pandas`, which can be nifty to visualize what conditions are working best.
+```python
+results.plot.scatter('protein', 'PEG')
+```
+A slightly fancier plot:
+```python
+import numpy as np
+
+results['proteinplot'] = results.protein +  np.random.normal(scale=0.15, size=len(results))
+results['PEGplot'] = results.PEG +  np.random.normal(scale=0.15, size=len(results))
+
+colordict= {'good':'green',
+            'needles':'red'}
+
+results.plot.scatter('proteinplot', 'PEGplot', alpha=0.5, c=results.quality.map(colordict))
+```
