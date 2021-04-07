@@ -56,7 +56,7 @@ tray1 = tt.tray(screen, rows=[1,8], cols=[5,10], date='2021-01-02'
 tray2 = tt.clonetray(tray1, date='2021-01-03')
 ```
 #### Using `pandas` methods
-As mentioned above, `tt.well()` returns a `pandas` dataframe. This means that you can use `pandas` methods and features as desired. One frequent usages might be printing out only select columns with bracket notation, or accessing a certain column with dot notation, e.g. 
+As mentioned above, `tt.well()` returns a `pandas` dataframe. This means that you can use `pandas` methods and features as desired. One frequent usage might be printing out only select columns with bracket notation, or accessing a certain column with dot notation, e.g. 
 ```python
 results[['protein', 'PEG', 'quality']]
 
