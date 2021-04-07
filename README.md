@@ -22,7 +22,7 @@ tray1 = tt.tray(myscreen, rows=[1,8], cols=[10,20]) # Rows vary from 1 to 8, col
 results = tt.well(tray1, 'A3', 'good') # there is a good crystal in well A3 of tray 1
 results = tt.well(tray1, ['E4', 'E5'], 'needle', old_df=results) # there are needle-y crystals in wells E4 and E5 of tray 1
 ```
-The return `results` from `tt.well()` is a pandas data frame where every crystal you've logged gets its own row, and every parameter you've indicated gets its own column. This makes it easy to keep track of the best conditions for your crystals across many trays with slightly different conditions. Note that upon logging your "hits", there's no need to input [protein] or %PEG; that information is already encoded by the tray and well you specified.  
+The return `results` from `tt.well()` is a `pandas` data frame where every crystal you've logged gets its own row, and every parameter you've indicated gets its own column. This makes it easy to keep track of the best conditions for your crystals across many trays with slightly different conditions. Note that upon logging your "hits", there's no need to input [protein] or %PEG; that information is already encoded by the tray and well you specified!  
 
 ### Required arguments
 ##### `tt.screen()`
