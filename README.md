@@ -58,8 +58,10 @@ tray2 = tt.clonetray(tray1, date='2021-01-03')
 #### Using `pandas` methods
 As mentioned above, `tt.well()` returns a `pandas` dataframe. This means that you can use `pandas` methods and features as desired. One frequent usage might be printing out only select columns with bracket notation, or accessing a certain column with dot notation, e.g. 
 ```python
-results[['protein', 'PEG', 'quality']]
-
+concise_results = results[['protein', 'PEG', 'quality']]
+```
+or
+```
 import numpy as np
 number_of_crystals = np.sum(results.appxnum())
 ```
