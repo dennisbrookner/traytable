@@ -28,7 +28,7 @@ The return `results` from `tt.well()` is a `pandas` data frame where every cryst
 ##### `tt.screen()` requires:
  - `row`: a string indicating the parameter that is encoded by each row in a tray
  - `col`: a string indicating the parameter that is encoded by each column in a tray
- - `maxwell`: a string indicating the name of the well in the bottom right corner of each tray. Any size tray is supported; however, currently, trays must be named with letters, and columns must be named with numbers
+ - `maxwell`: a string indicating the name of the well in the bottom right corner of each tray. Any size tray is supported; however, currently, rows must be named with letters, and columns must be named with numbers
 ##### `tt.tray()` requires:
  - `screen`: The screen, as created by `tt.screen()`, that this tray should inherit parameters from. You can't create a tray without a screen.
  - `rows`: Specify the values to assign to each row with either a single number (to assign to all rows), a list of two numbers (to evenly space among the rows) or a list of numbers explicitly specifying a value for each row. With 8 rows, you might say `rows=5`, `rows=[1,8]` or `rows=[1,2,3,4,6,8,10,12]`.
