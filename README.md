@@ -36,7 +36,7 @@ The return `results` from `tt.well()` is a `pandas` data frame where every cryst
 ##### `tt.well()` requires:
  - `tray`: The tray
  - `well`: The well; must be a string of format '[letter][number]', and must fall into the range specified by the screen's `maxwell`
- - `quality`: Any type, though I recommend a short categorical string like 'good', 'bad', 'needles', or 'multilattice'
+ - `quality`: Any type, though I recommend either a short categorical string (e.g. 'good', 'bad', 'needles', or 'multilattice') or a numerical score, in order to best utilize the tools of `pandas` to manipulate and summarize your results.
  - `old_df`: Not strictly required, but to append previous results, pass previous returns from `tt.well()` to the next call as `old_df = `
   
 ### Optional arguments
@@ -55,6 +55,11 @@ To save some typing, you can create trays with `tt.clonetray()`. Usage is `newtr
 tray1 = tt.tray(screen, rows=[1,8], cols=[5,10], date='2021-01-02'
 tray2 = tt.clonetray(tray1, date='2021-01-03')
 ```
+#### Special treatment of dates  
+A crystal will frequently have two dates associated with it - when the tray was set, and when the crystal is being logged. Two things of note happen to address this:
+ - Arguments named `'date'` passed to `tt.tray()` and `tt.well()` automatically become columns named `'date_set'` and `'date_logged'`, respectively.
+ - If both `'dates'`s are present and in ISO format (`YYYY-MM-DD`), they are subtracted (via the `datetime` module) to compute a new column `days_elapsed`. This is an especially important datapoint in crystallization, so it makes sense to give it special treatment. This also avoids the redundant input of date set, date logged, and days elapsed, when the latter is of course determined by the two former.
+
 #### Using `pandas` methods
 As mentioned above, `tt.well()` returns a `pandas` dataframe. This means that you can use `pandas` methods and features as desired. One frequent usage might be printing out only select columns with bracket notation, or accessing a certain column with dot notation, e.g. 
 ```python
@@ -81,3 +86,5 @@ colordict= {'good':'green',
 
 results.plot.scatter('proteinplot', 'PEGplot', alpha=0.5, c=results.quality.map(colordict))
 ```
+#### Mismatching columns
+Results from subsequent calls to `tt.well()` are appended via an "`outer_join`", meaning that columns present in one dataframe but not the other will give `NaN` values where appropriate, but no errors. This gives flexibility to vary the kinds of details you include across different trays and wells, while still keeping the "core" data common to all crystals in one place.
