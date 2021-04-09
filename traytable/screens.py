@@ -9,7 +9,7 @@ Created on Mon Mar 29 13:30:13 2021
 import string
 import numpy as np
 from copy import deepcopy
-
+import datetime
 
 def screen(row, col, maxwell, **kwargs):
     """
@@ -68,6 +68,17 @@ def tray(screen, rows, cols, **kwargs):
     tray = deepcopy(screen)
 
     tray["statics"].update(kwargs)
+    
+    # if 'date' in tray['statics'].keys():
+    #     try:
+    #         tray['statics']['date'] = datetime.date.fromisoformat(tray['statics']['date'])
+    #     except ValueError:
+    #         pass
+    #     #print('found a date')
+    
+    #date = tray['statics'].pop("date", None)
+    #if date is not None:
+    #    newtray = setcols(newtray, cols)
 
     tray = setrows(tray, rows)
     tray = setcols(tray, cols)
@@ -215,7 +226,7 @@ def main():
 
     screen1 = screen("protein", "PEG", "H6", construct="wt DHFR")
 
-    tray1 = tray(screen1, rows=3, cols=[4, 5])
+    tray1 = tray(screen1, rows=3, cols=[4, 5], date='2021-01-01')
     # tray1 = setrows(tray1, 3)
     # screen1 = setrows(screen1, 'DB1', [3])
 
