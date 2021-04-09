@@ -6,7 +6,7 @@
 import pandas as pd
 import string
 from varname import argname
-
+import datetime
 
 def well(tray, well, quality, old_df=None, **kwargs):
     """
@@ -38,6 +38,24 @@ def well(tray, well, quality, old_df=None, **kwargs):
         Dataframe containing the new reults, optionally concatenated with old_df
 
     """
+    fancy_dates=0
+    if 'date' in tray['statics'].keys():
+        fancy_dates+=1
+        tray['statics']['date_set'] = tray['statics'].pop('date')
+        try:
+            set_date = datetime.date.fromisoformat(tray['statics']['date_set'])
+        except ValueError:
+            fancy_dates-=1
+            pass
+    
+    if 'date' in kwargs.keys():
+        fancy_dates+=1
+        kwargs['date_logged'] = kwargs.pop('date')
+        try:
+            log_date = datetime.date.fromisoformat(kwargs['date_logged'])
+        except ValueError:
+            fancy_dates-=1
+            pass
 
     df = pd.DataFrame(
         columns=[tray["row"]]
@@ -79,14 +97,17 @@ def well(tray, well, quality, old_df=None, **kwargs):
             + [argname(tray)]
             + [w]
         )
-
+    
     if kwargs is not None:
+        
         for key, value in kwargs.items():
             df[key] = value
+            
+    if fancy_dates == 2:
+        df['days_elapsed'] = (log_date - set_date).days
 
     if old_df is not None:
         df = pd.concat([old_df, df], axis=0, ignore_index=True)
-        # df = old_df.append(df)
 
     return df
 
@@ -97,10 +118,10 @@ def main():
 
     screen1 = screen("protein", "PEG", "H6", construct="wt DHFR")
 
-    nicetray = tray(screen1, rows=3, cols=[4, 5])
+    nicetray = tray(screen1, rows=3, cols=[4, 5], date='2021-02-02')
     tray2 = clonetray(nicetray, rows=[3, 5])
 
-    df = well(nicetray, "A2", "good", note="newly appeared")
+    df = well(nicetray, "A2", "good", note="newly appeared", date='2021-02-10')
     df = well(tray2, ["A1", "A2", "A3"], "needles", old_df=df, note="not mountable yet")
     # df = well(screen, 'tray3', 'G2', 'needles', old_df=df)
 
