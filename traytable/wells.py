@@ -7,6 +7,8 @@ import pandas as pd
 import string
 from varname import argname
 import datetime
+from copy import deepcopy
+
 
 def well(tray, well, quality, old_df=None, **kwargs):
     """
@@ -39,11 +41,13 @@ def well(tray, well, quality, old_df=None, **kwargs):
 
     """
     fancy_dates=0
-    if 'date' in tray['statics'].keys():
+    
+    statics = deepcopy(tray['statics'])
+    if 'date' in statics.keys():
         fancy_dates+=1
-        tray['statics']['date_set'] = tray['statics'].pop('date')
+        statics['date_set'] = statics.pop('date')
         try:
-            set_date = datetime.date.fromisoformat(tray['statics']['date_set'])
+            set_date = datetime.date.fromisoformat(statics['date_set'])
         except ValueError:
             fancy_dates-=1
             pass
@@ -61,7 +65,7 @@ def well(tray, well, quality, old_df=None, **kwargs):
         columns=[tray["row"]]
         + [tray["col"]]
         + ["quality"]
-        + list(tray["statics"].keys())
+        + list(statics.keys())
         + ["tray"]
         + ["well"]
     )
@@ -93,7 +97,7 @@ def well(tray, well, quality, old_df=None, **kwargs):
             [tray[w[0]]]
             + [tray[w[1]]]
             + [quality]
-            + list(tray["statics"].values())
+            + list(statics.values())
             + [argname(tray)]
             + [w]
         )
@@ -121,14 +125,14 @@ def main():
     nicetray = tray(screen1, rows=3, cols=[4, 5], date='2021-02-02')
     tray2 = clonetray(nicetray, rows=[3, 5])
 
-    df = well(nicetray, "A2", "good", note="newly appeared", date='2021-02-10')
-    df = well(tray2, ["A1", "A2", "A3"], "needles", old_df=df, note="not mountable yet")
-    # df = well(screen, 'tray3', 'G2', 'needles', old_df=df)
+    df = well(nicetray, ["A2", "A4"], "good", note="newly appeared", date='2021-02-10')
+    df = well(nicetray, ["A1", "A2", "A3"], "needles", old_df=df, date='2021-02-11', note="not mountable yet")
+    df = well(tray2, 'G2', 'needles', old_df=df)
 
     # df = well(screen, 'tray3', 'J2', 'good')
     # df = well(screen, 'tray3', 'B7', 'good')
 
-    print(df)
+    print(nicetray)
 
 
 if __name__ == "__main__":
