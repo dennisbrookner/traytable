@@ -55,6 +55,11 @@ To save some typing, you can create trays with `tt.clonetray()`. Usage is `newtr
 tray1 = tt.tray(screen, rows=[1,8], cols=[5,10], date='2021-01-02'
 tray2 = tt.clonetray(tray1, date='2021-01-03')
 ```
+#### Special treatment of dates  
+A crystal will frequently have two dates associated with it - when the tray was set, and when the crystal is being logged. Two things of note happen to address this:
+ - Arguments named `'date'` passed to `tt.tray()` and `tt.well()` are automatically renamed `'date_set'` and `'date_logged'`, respectively.
+ - If both `'dates'`s are present and in ISO format (`YYYY-MM-DD`), they are subtracted (via the `datetime` module) to compute a new column `days_elapsed`. This is an especially important datapoint in crystallization, so it makes sense to give it special treatment. This also avoids the redundant input of date set, date logged, and days elapsed, when the latter is of course determined by the two former.
+
 #### Using `pandas` methods
 As mentioned above, `tt.well()` returns a `pandas` dataframe. This means that you can use `pandas` methods and features as desired. One frequent usage might be printing out only select columns with bracket notation, or accessing a certain column with dot notation, e.g. 
 ```python
