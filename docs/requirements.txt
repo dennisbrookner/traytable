@@ -1,0 +1,4 @@
+traytable
+sphinx>=1.4
+nbsphinx
+myst-parser
