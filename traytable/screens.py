@@ -1,10 +1,6 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-"""
-Created on Mon Mar 29 13:30:13 2021
-
-@author: dennisbrookner
- """
+""" """
 # import pandas as pd
 import string
 import numpy as np
