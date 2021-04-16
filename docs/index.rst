@@ -24,3 +24,4 @@ Install via pip_:
    Quickstart <quickstart/index>
    API <api/traytable>
    Examples <examples/index>
+
