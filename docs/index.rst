@@ -22,6 +22,6 @@ Install via pip_:
    :maxdepth: 1
 
    Quickstart <quickstart/index>
-   API <api/traytable>
+   API <api/index>
    Examples <examples/index>
 
