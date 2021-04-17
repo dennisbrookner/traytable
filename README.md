@@ -7,7 +7,8 @@
 The goal of `traytable` is for all crystallization data to be inputted once and only once, and then conveniently looked up and reused whenever needed.
 
 You can find a jupyter notebook with a brief demonstration of package functionality [here](https://traytable.readthedocs.io/en/latest/examples/0_simple_example.html).  
-Full documentation via Read the Docs can be found [here](https://traytable.readthedocs.io/en/stable/)
+Full documentation via Read the Docs can be found [here](https://traytable.readthedocs.io/en/stable/)  
+[![Documentation Status](https://readthedocs.org/projects/traytable/badge/?version=stable)](https://traytable.readthedocs.io/en/stable/?badge=stable)
 
 #### Installation
 ```bash
