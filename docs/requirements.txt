@@ -2,4 +2,4 @@ traytable
 sphinx>=1.4
 nbsphinx
 myst-parser
-sphinx-rtd-theme
+sphinx_rtd_theme
