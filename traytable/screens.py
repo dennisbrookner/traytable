@@ -48,9 +48,9 @@ def tray(screen, rows, cols, **kwargs):
     screen : dict
         Screen from which the tray inherits global parameters
     rows : list or float
-        Value(s) to be used as row specifications, passed to setrows()
+        Value(s) to be used as row specifications. Must be a single number, a list of two numbers, or a list of length matchng the number of rows.
     cols : list or float
-        Value(s) to be used as column specifications, passed to setcols()
+        Value(s) to be used as column specifications. Must be a single number, a list of two numbers, or a list of length matching the number of columns.
     **kwargs : any type
         Set any named parameters to apply them to all wells in the tray
 
