@@ -1,5 +1,8 @@
 # `traytable`
 ### A python package for tabulating crystallization results across many trays  
+[![Documentation Status](https://readthedocs.org/projects/traytable/badge/?version=stable)](https://traytable.readthedocs.io/en/stable/?badge=stable)
+ Documentation built via Read the Docs
+
 `traytable` provides methods for 
  - storing all information about a crystallization screen in a dictionary of dictionaries
  - extracting and tabulating all data about "hits" into a `pandas` dataframe.  
