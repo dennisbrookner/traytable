@@ -17,8 +17,8 @@ def well(tray, well, quality, old_df=None, **kwargs):
     ----------
     tray : dict
         Tray, as created by traytable.tray()
-    well : string
-        Well name, in format '[letter][number]'
+    well : string or list of strings
+        Well name(s), in format '[letter][number]'
     quality : string
         Short categorical description, e.g. "good" or "needles"
     old_df : pandas.core.frame.DataFrame, optional

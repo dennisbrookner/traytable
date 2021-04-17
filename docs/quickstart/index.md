@@ -1,4 +1,4 @@
-# `traytable`
+# `traytable` quickstart
 **A python package for tabulating crystallization results across many trays**  
 
 `traytable` provides methods for 
