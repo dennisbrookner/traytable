@@ -1,12 +1,13 @@
 # `traytable`
-##### A python package for tabulating crystallization results across many trays  
+**A python package for tabulating crystallization results across many trays**  
+
 `traytable` provides methods for 
  - storing all information about a crystallization screen in dictionaries
  - extracting and tabulating all data about "hits" into a `pandas` dataframe.  
 
 The goal of `traytable` is for all crystallization data to be inputted once and only once, and then conveniently looked up and reused whenever needed.
 
-You can find a jupyter notebook with a brief demonstration of package functionality [here](https://github.com/dennisbrookner/traytable/blob/main/1_sample.ipynb).
+You can find a jupyter notebook with a brief demonstration of package functionality [here](../examples/0_simple_example).
 
 ## Installation
 ```bash
@@ -58,7 +59,7 @@ tray2 = tt.clonetray(tray1, date='2021-01-03')
 #### Special treatment of dates  
 A crystal will frequently have two dates associated with it - when the tray was set, and when the crystal is being logged. Two things of note happen to address this:
  - Arguments named `'date'` passed to `tt.tray()` and `tt.well()` automatically become columns named `'date_set'` and `'date_logged'`, respectively.
- - If both `'dates'`s are present and in ISO format (`YYYY-MM-DD`), they are subtracted (via the `datetime` module) to compute a new column `days_elapsed`. This is an especially important datapoint in crystallization, so it makes sense to give it special treatment. This also avoids the redundant input of date set, date logged, and days elapsed, when the latter is of course determined by the two former.
+ - If both `'date'`s are present and in ISO format (`YYYY-MM-DD`), they are subtracted (via the `datetime` module) to compute a new column `days_elapsed`. This is an especially important datapoint in crystallization, so it makes sense to give it special treatment. This also avoids the redundant input of date set, date logged, and days elapsed, when the latter is of course determined by the two former.
 
 #### Using `pandas` methods
 As mentioned above, `tt.well()` returns a `pandas` dataframe. This means that you can use `pandas` methods and features as desired. One frequent usage might be printing out only select columns with bracket notation, or accessing a certain column with dot notation, e.g. 
