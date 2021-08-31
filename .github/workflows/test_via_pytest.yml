@@ -44,7 +44,7 @@ jobs:
       - name: Install
         run: |
           pip install wheel
-          pip install ".test"
+          pip install "[.test]"
       - name: Tests
         run: |
           pytest
