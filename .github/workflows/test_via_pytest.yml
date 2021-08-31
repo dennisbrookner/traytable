@@ -13,12 +13,11 @@ on:
 
 jobs:
   test-3x:
-    name: Python ${{ matrix.python-version }} - Matplotlib ${{ matrix.matplotlib-version }}
+    name: Python ${{ matrix.python-version }}
     runs-on: ubuntu-latest
     strategy:
       matrix:
         python-version: ["3.9.x"]
-        matplotlib-version: ["3.3", "3.4"]
     steps:
       - name: Checkout
         uses: actions/checkout@v2
