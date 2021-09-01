@@ -11,7 +11,6 @@ def test_screen_well():
 	assert tray['3'] == 6
 	assert len(tray) == 18
 
-# this should be an error but isn't yet!!
 def test_bad_maxwell():
 	with pytest.raises(ValueError):
 		tt.screen(row='PEG', col='protein', maxwell='H3H')
