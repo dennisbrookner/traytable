@@ -28,6 +28,14 @@ def screen(row, col, maxwell, **kwargs):
         A dictionary containing the screen
 
     """
+    # make sure maxwell is properly formatted
+    if len(maxwell) != 2:
+        raise ValueError(f'maxwell must have length 2, supplied {maxwell} has length {len(maxwell)}')
+    elif not maxwell[0].isalpha():
+        raise ValueError(f'first character of maxwell must be a letter, supplied {maxwell} has first character {maxwell[0]}')
+    elif not maxwell[1].isdigit():
+        raise ValueError(f'second character of maxwell must be a number, supplied {maxwell} has second character {maxwell[1]}')
+
 
     screen = {"row": row, "col": col, "maxwell": maxwell}
 
