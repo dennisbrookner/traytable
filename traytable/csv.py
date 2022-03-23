@@ -8,11 +8,11 @@ from copy import deepcopy
 import traytable as tt
 
 
-def read_rockmaker(tray, filename=None, path=".", score_dict=None):
+def read_rockmaker(tray, filename=None, path=".", score_dict=None, old_df=None):
 
     if filename is None:
         temp = argname(tray)
-        filename = f"{temp}.csv"
+        filename = f"Score Report - {temp}.csv"
 
     data = pd.read_csv(f"{path}/{filename}")
 
@@ -75,6 +75,9 @@ def read_rockmaker(tray, filename=None, path=".", score_dict=None):
                 9: "Crystals",
             }
         data["quality"] = data["quality"].map(score_dict)
+
+    if old_df is not None:
+        data = pd.concat([old_df, data], axis=0, ignore_index=True)
 
     return data
 
