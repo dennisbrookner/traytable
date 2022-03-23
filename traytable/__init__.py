@@ -7,3 +7,4 @@ __version__ = getVersionNumber()
 
 from .screens import screen, tray, clonetray, setrows, setcols
 from .wells import well
+from .csv import read_rockmaker
