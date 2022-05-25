@@ -47,7 +47,7 @@ def screen(row, col, maxwell, **kwargs):
     return screen
 
 
-def tray(screen, rows, cols, **kwargs):
+def tray(screen=None, rows=None, cols=None, ss=None, **kwargs):
     """
     Create a tray, based on a screen and row/column specifications
 
@@ -72,23 +72,9 @@ def tray(screen, rows, cols, **kwargs):
     tray = deepcopy(screen)
 
     tray["statics"].update(kwargs)
-    
-    # if 'date' in tray['statics'].keys():
-    #     try:
-    #         tray['statics']['date'] = datetime.date.fromisoformat(tray['statics']['date'])
-    #     except ValueError:
-    #         pass
-    #     #print('found a date')
-    
-    #date = tray['statics'].pop("date", None)
-    #if date is not None:
-    #    newtray = setcols(newtray, cols)
 
     tray = setrows(tray, rows)
     tray = setcols(tray, cols)
-
-    # for key, value in kwargs.items():
-    #    tray['traystatics'][key] = value
 
     return tray
 
@@ -123,8 +109,7 @@ def clonetray(oldtray, **kwargs):
         newtray = setcols(newtray, cols)
 
     newtray["statics"].update(kwargs)
-    # for key, value in kwargs.items():
-    #    newtray['traystatics'][key] = value
+
 
     return newtray
 
@@ -153,7 +138,6 @@ def setrows(tray, *args):
 
     rownames = [i for i in string.ascii_uppercase[:numrows]]
 
-    # print(args)
     rowdata = rowcolparser(numrows, "rows", args)
 
     for name, data in zip(rownames, rowdata):
