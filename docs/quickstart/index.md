@@ -56,6 +56,10 @@ To save some typing, you can create trays with `tt.clonetray()`. Usage is `newtr
 tray1 = tt.tray(screen, rows=[1,8], cols=[5,10], date='2021-01-02'
 tray2 = tt.clonetray(tray1, date='2021-01-03')
 ```
+#### The `read_rockmaker()` method
+**Note**: More extensive documentation of this feature to come.  
+It is possible to score crystals on RockMaker/RockImager via the online GUI. As a preliminary means of interfacing between `traytable` and RockMaker, I have added the `tt.read_rockmaker()` function, which accepts a "Score Report" `.csv` file and reads it into a `traytable` format.
+
 #### Special treatment of dates  
 A crystal will frequently have two dates associated with it - when the tray was set, and when the crystal is being logged. Two things of note happen to address this:
  - Arguments named `'date'` passed to `tt.tray()` and `tt.well()` automatically become columns named `'date_set'` and `'date_logged'`, respectively.
