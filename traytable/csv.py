@@ -9,7 +9,27 @@ import traytable as tt
 
 
 def read_rockmaker(tray, filename=None, path=".", score_dict=None, old_df=None):
-
+    """
+    Import crystal hits via a RockMaker-style csv file
+    
+    Parameters
+    ----------
+    tray : dict
+        The tray, produced by tt.tray, for which you are logging hits.
+    filename : string, optional
+        The name of the csv file. Defaults to "Score Report - {tray name}.csv"
+    path : string, optional
+        Filepath to the csv file, if not in the current directory
+    score_dict : dict, optional
+        If None (default), scores are left as integers 1-9. If "rockmaker", integers are converted via the rockmaker naming convention.
+        Any other dictionary can be passed and used to convert integer scores as desired.
+    olf_df : pandas.core.frame.DataFrame, optional
+        Dataframe to which results should be appended
+    Returns
+    -------
+    screen : dict
+        A dictionary containing the screen
+    """
     if filename is None:
         temp = argname(tray)
         filename = f"Score Report - {temp}.csv"
@@ -61,7 +81,7 @@ def read_rockmaker(tray, filename=None, path=".", score_dict=None, old_df=None):
         data[key] = value
 
     if score_dict is not None:
-        if score_dict == "default":
+        if score_dict == "rockmaker":
             score_dict = {
                 0: "Clear",
                 1: "Dust",
