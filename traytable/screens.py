@@ -5,7 +5,7 @@
 import string
 import numpy as np
 from copy import deepcopy
-#import datetime
+
 
 def screen(row, col, maxwell, **kwargs):
     """
@@ -30,12 +30,17 @@ def screen(row, col, maxwell, **kwargs):
     """
     # make sure maxwell is properly formatted
     if len(maxwell) != 2:
-        raise ValueError(f'maxwell must have length 2, supplied {maxwell} has length {len(maxwell)}')
+        raise ValueError(
+            f"maxwell must have length 2, supplied {maxwell} has length {len(maxwell)}"
+        )
     elif not maxwell[0].isalpha():
-        raise ValueError(f'first character of maxwell must be a letter, supplied {maxwell} has first character {maxwell[0]}')
+        raise ValueError(
+            f"first character of maxwell must be a letter, supplied {maxwell} has first character {maxwell[0]}"
+        )
     elif not maxwell[1].isdigit():
-        raise ValueError(f'second character of maxwell must be a number, supplied {maxwell} has second character {maxwell[1]}')
-
+        raise ValueError(
+            f"second character of maxwell must be a number, supplied {maxwell} has second character {maxwell[1]}"
+        )
 
     screen = {"row": row, "col": col, "maxwell": maxwell}
 
@@ -109,7 +114,6 @@ def clonetray(oldtray, **kwargs):
         newtray = setcols(newtray, cols)
 
     newtray["statics"].update(kwargs)
-
 
     return newtray
 
@@ -214,7 +218,7 @@ def main():
 
     screen1 = screen("protein", "PEG", "H6", construct="wt DHFR")
 
-    tray1 = tray(screen1, rows=3, cols=[4, 5], date='2021-01-01')
+    tray1 = tray(screen1, rows=3, cols=[4, 5], date="2021-01-01")
     # tray1 = setrows(tray1, 3)
     # screen1 = setrows(screen1, 'DB1', [3])
 

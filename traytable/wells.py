@@ -39,25 +39,25 @@ def well(tray, well, quality, old_df=None, **kwargs):
         Dataframe containing the new reults, optionally concatenated with old_df
 
     """
-    fancy_dates=0
-    
-    statics = deepcopy(tray['statics'])
-    if 'date' in statics.keys():
-        fancy_dates+=1
-        statics['date_set'] = statics.pop('date')
+    fancy_dates = 0
+
+    statics = deepcopy(tray["statics"])
+    if "date" in statics.keys():
+        fancy_dates += 1
+        statics["date_set"] = statics.pop("date")
         try:
-            set_date = datetime.date.fromisoformat(statics['date_set'])
+            set_date = datetime.date.fromisoformat(statics["date_set"])
         except ValueError:
-            fancy_dates-=1
+            fancy_dates -= 1
             pass
-    
-    if 'date' in kwargs.keys():
-        fancy_dates+=1
-        kwargs['date_logged'] = kwargs.pop('date')
+
+    if "date" in kwargs.keys():
+        fancy_dates += 1
+        kwargs["date_logged"] = kwargs.pop("date")
         try:
-            log_date = datetime.date.fromisoformat(kwargs['date_logged'])
+            log_date = datetime.date.fromisoformat(kwargs["date_logged"])
         except ValueError:
-            fancy_dates-=1
+            fancy_dates -= 1
             pass
 
     df = pd.DataFrame(
@@ -100,14 +100,14 @@ def well(tray, well, quality, old_df=None, **kwargs):
             + [argname(tray)]
             + [w]
         )
-    
+
     if kwargs is not None:
-        
+
         for key, value in kwargs.items():
             df[key] = value
-            
+
     if fancy_dates == 2:
-        df['days_elapsed'] = (log_date - set_date).days
+        df["days_elapsed"] = (log_date - set_date).days
 
     if old_df is not None:
         df = pd.concat([old_df, df], axis=0, ignore_index=True)
@@ -121,12 +121,19 @@ def main():
 
     screen1 = screen("protein", "PEG", "H6", construct="wt DHFR")
 
-    nicetray = tray(screen1, rows=3, cols=[4, 5], date='2021-02-02')
+    nicetray = tray(screen1, rows=3, cols=[4, 5], date="2021-02-02")
     tray2 = clonetray(nicetray, rows=[3, 5])
 
-    df = well(nicetray, ["A2", "A4"], "good", note="newly appeared", date='2021-02-10')
-    df = well(nicetray, ["A1", "A2", "A3"], "needles", old_df=df, date='2021-02-11', note="not mountable yet")
-    df = well(tray2, 'G2', 'needles', old_df=df)
+    df = well(nicetray, ["A2", "A4"], "good", note="newly appeared", date="2021-02-10")
+    df = well(
+        nicetray,
+        ["A1", "A2", "A3"],
+        "needles",
+        old_df=df,
+        date="2021-02-11",
+        note="not mountable yet",
+    )
+    df = well(tray2, "G2", "needles", old_df=df)
 
     # df = well(screen, 'tray3', 'J2', 'good')
     # df = well(screen, 'tray3', 'B7', 'good')
