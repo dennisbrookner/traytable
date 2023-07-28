@@ -14,6 +14,9 @@ Full documentation via Read the Docs can be found [here](https://traytable.readt
 ```bash
 pip install traytable
 ```
+## Recent upgrade:
+`traytable 0.3.0` represents a radical overhaul of package use and syntax. Documentation for the new version will be added soon. If you would like to follow the instructions below, install version `0.2.1`.
+
 ## Usage
 A super brief example:
 ```python
